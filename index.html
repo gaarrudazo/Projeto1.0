@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Versão 1.0 - Controle Financeiro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #143da4;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #92a9e7;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #444;
+        }
+        section {
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .finance-section {
+            width: 45%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .finance-section h2 {
+            margin-bottom: 20px;
+            color: #143da4;
+            font-size: 24px;
+            text-align: center;
+        }
+        .finance-form {
+            margin-bottom: 20px;
+        }
+        .finance-form input[type="text"],
+        .finance-form input[type="number"] {
+            width: calc(100% - 10px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .finance-form input[type="text"]:focus,
+        .finance-form input[type="number"]:focus {
+            border-color: #143da4;
+            outline: none;
+        }
+        .finance-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #143da4;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .finance-form button:hover {
+            background-color: #0e2b84;
+        }
+        .finance-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .finance-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .finance-item span {
+            flex: 1;
+        }
+        .finance-item .value {
+            margin-right: 10px; /* Espaçamento entre o valor e o botão */
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        footer {
+            background-color: #143da4;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Manager Versão 1.0 - Controle Financeiro</h1>
+</header>
+
+<nav>
+    <!-- Links para selecionar o mês -->
+    <a href="#" id="january">Janeiro</a>
+    <a href="#" id="february">Fevereiro</a>
+    <a href="#" id="march">Março</a>
+    <a href="#" id="april">Abril</a>
+    <a href="#" id="may">Maio</a>
+    <a href="#" id="june">Junho</a>
+    <a href="#" id="july">Julho</a>
+    <a href="#" id="august">Agosto</a>
+    <a href="#" id="september">Setembro</a>
+    <a href="#" id="october">Outubro</a>
+    <a href="#" id="november">Novembro</a>
+    <a href="#" id="december">Dezembro</a>
+</nav>
+
+<section>
+    <div class="finance-section">
+        <h2>Despesas Mensais</h2>
+        <form id="monthly-budget-form" class="finance-form">
+            <input type="text" id="monthly-budget-input" placeholder="Nome da Despesa">
+            <input type="number" id="monthly-budget-value" placeholder="Valor">
+            <button type="submit">Adicionar</button>
+        </form>
+        <ul id="monthly-budget-list" class="finance-list">
+            <!-- Itens do orçamento mensal serão adicionados dinamicamente aqui -->
+        </ul>
+        <p id="monthly-total">Total: R$ 0.00</p>
+    </div>
+    <div class="finance-section">
+        <h2>Planejamento Financeiro</h2>
+        <form id="financial-planning-form" class="finance-form">
+            <input type="text" id="financial-planning-input" placeholder="Nome da Entrada">
+            <input type="number" id="financial-planning-value" placeholder="Valor">
+            <button type="submit">Adicionar</button>
+        </form>
+        <form id="cash-form" class="finance-form">
+            <label for="cash-input">Caixa:</label>
+            <input type="number" id="cash-input" placeholder="Valor em Conta">
+        </form>
+        <ul id="financial-planning-list" class="finance-list">
+            <!-- Itens do planejamento financeiro serão adicionados dinamicamente aqui -->
+        </ul>
+        <p id="financial-total">Total: R$ 0.00</p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2024 Meu Site</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+        const monthsLinks = document.querySelectorAll('nav a');
+
+        // Adiciona listeners para os links dos meses
+        monthsLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const monthId = link.id;
+                selectMonth(monthId);
+            });
+        });
+
+        // Seleciona o mês e carrega os dados
+        function selectMonth(monthId) {
+            // Remove a classe ativa de todos os links
+            monthsLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Adiciona a classe ativa ao link do mês selecionado
+            const selectedLink = document.getElementById(monthId);
+            selectedLink.classList.add('active');
+
+            // Carrega os dados do mês selecionado
+            loadMonthData(monthId);
+        }
+
+        // Carrega os dados do mês selecionado
+        function loadMonthData(monthId) {
+            const dataKey = `financeData-${monthId}`;
+            const dataString = localStorage.getItem(dataKey); // Obtém os dados do localStorage
+            if (dataString) {
+                const data = JSON.parse(dataString);
+                populateFinanceItems(data.monthlyBudgetItems, 'monthly-budget-list');
+                populateFinanceItems(data.financialPlanningItems, 'financial-planning-list');
+                document.getElementById('cash-input').value = data.cashAmount || ''; // Define o valor do caixa
+                updateTotal("monthly-budget-list", "monthly-total");
+                updateTotal("financial-planning-list", "financial-total");
+            } else {
+                // Limpa as listas se não houver dados salvos para o mês selecionado
+                document.getElementById('monthly-budget-list').innerHTML = "";
+                document.getElementById('financial-planning-list').innerHTML = "";
+                document.getElementById('cash-input').value = ''; // Limpa o valor do caixa
+                document.getElementById('monthly-total').textContent = "Total: R$ 0.00";
+                document.getElementById('financial-total').textContent = "Total: R$ 0.00";
+            }
+        }
+
+        // Função auxiliar para popular itens de finanças em uma lista
+        function populateFinanceItems(items, listId) {
+            const financeList = document.getElementById(listId);
+            financeList.innerHTML = ""; // Limpa os itens existentes
+
+            // Adiciona os novos itens
+            items.forEach(item => {
+                const financeItem = document.createElement('li');
+                financeItem.className = 'finance-item';
+                financeItem.innerHTML = `
+                    <span>${item.name}</span>
+                    <div class="value">R$ ${item.value.toFixed(2)}</div>
+                    <button class="delete-btn">Excluir</button>
+                `;
+                financeList.appendChild(financeItem);
+
+                // Adiciona listener para o botão de exclusão
+                financeItem.querySelector('.delete-btn').addEventListener('click', function () {
+                    financeItem.remove();
+                    saveMonthData();
+                });
+            });
+        }
+
+        // Função auxiliar para atualizar o total de uma lista de finanças
+        function updateTotal(listId, totalId) {
+            const financeItems = document.querySelectorAll(`#${listId} .finance-item`);
+            let total = 0;
+            financeItems.forEach(item => {
+                const value = parseFloat(item.querySelector('.value').textContent.replace('R$ ', ''));
+                total += value;
+            });
+            document.getElementById(totalId).textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        // Função para salvar os dados do mês
+        function saveMonthData() {
+            const activeMonthId = document.querySelector('nav a.active').id;
+            const dataKey = `financeData-${activeMonthId}`;
+            const monthlyBudgetItems = Array.from(document.getElementById('monthly-budget-list').children).map(item => ({
+                name: item.querySelector('span').textContent,
+                value: parseFloat(item.querySelector('.value').textContent.replace('R$ ', ''))
+            }));
+            const financialPlanningItems = Array.from(document.getElementById('financial-planning-list').children).map(item => ({
+                name: item.querySelector('span').textContent,
+                value: parseFloat(item.querySelector('.value').textContent.replace('R$ ', ''))
+            }));
+            const cashAmount = parseFloat(document.getElementById('cash-input').value) || 0;
+
+            const data = {
+                monthlyBudgetItems,
+                financialPlanningItems,
+                cashAmount
+            };
+            localStorage.setItem(dataKey, JSON.stringify(data));
+        }
+
+        // Adiciona listeners para os forms de adição de itens
+        document.getElementById('monthly-budget-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const productName = document.getElementById('monthly-budget-input').value.trim();
+            const productValue = parseFloat(document.getElementById('monthly-budget-value').value);
+            if (productName !== '' && !isNaN(productValue)) {
+                addFinanceItem(productName, productValue, 'monthly-budget-list', 'monthly-total');
+                saveMonthData();
+            }
+        });
+        document.getElementById('financial-planning-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const productName = document.getElementById('financial-planning-input').value.trim();
+            const productValue = parseFloat(document.getElementById('financial-planning-value').value);
+            if (productName !== '' && !isNaN(productValue)) {
+                addFinanceItem(productName, productValue, 'financial-planning-list', 'financial-total');
+                saveMonthData();
+            }
+        });
+
+        // Adiciona listener para o botão de caixa
+        document.getElementById('cash-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            saveMonthData();
+        });
+
+        // Função auxiliar para adicionar um item financeiro
+        function addFinanceItem(name, value, listId, totalId) {
+            const financeList = document.getElementById(listId);
+            const financeItem = document.createElement('li');
+            financeItem.className = 'finance-item';
+            financeItem.innerHTML = `
+                <span>${name}</span>
+                <div class="value">R$ ${value.toFixed(2)}</div>
+                <button class="delete-btn">Excluir</button>
+            `;
+            financeList.appendChild(financeItem);
+
+            // Adiciona listener para o botão de exclusão
+            financeItem.querySelector('.delete-btn').addEventListener('click', function () {
+                financeItem.remove();
+                updateTotal(listId, totalId);
+                saveMonthData();
+            });
+            updateTotal(listId, totalId);
+        }
+
+        // Seleciona o mês inicialmente
+        selectMonth('january');
+    });
+
+    const cashForm = document.getElementById('cash-form');
+        const cashInput = document.getElementById('cash-input');
+        cashForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const cashAmount = parseFloat(cashInput.value);
+            if (!isNaN(cashAmount)) {
+                const cashItem = document.getElementById('cash-item');
+                if (cashItem) {
+                    cashItem.querySelector('span:nth-child(2)').textContent = `R$ ${cashAmount.toFixed(2)}`;
+                } else {
+                    const financeList = document.getElementById('financial-planning-list');
+                    const cashListItem = document.createElement('li');
+                    cashListItem.className = 'finance-item';
+                    cashListItem.id = 'cash-item';
+                    cashListItem.innerHTML = `
+                        <span>Caixa</span>
+                        <span>R$ ${cashAmount.toFixed(2)}</span>
+                    `;
+                    financeList.appendChild(cashListItem);
+                }
+                cashInput.value = '';
+            }
+        });
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
