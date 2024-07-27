@@ -1,68 +1,244 @@
+/* Importar a fonte do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-        body {
-            background: rgb(45, 45, 166);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
-            margin: 0;
-        }
+body {
+    font-family: 'Montserrat', sans-serif; /* Fonte moderna */
+    background-color: #f4f7f9; /* Cor de fundo suave */
+    margin: 0;
+    padding: 0;
+}
 
-        form {
-            width: 300px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+.container {
+    max-width: 1200px; /* Tamanho da plataforma ajustado */
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
 
-        input, button {
-            padding: 10px;
-            margin-bottom: 10px;
-            width: -webkit-fill-available; /* Para navegadores basados en WebKit */
-            width: fill-available; /* Propiedad estándar */
-            display: block;
-        }
+header {
+    text-align: center;
+    padding: 15px 0; /* Diminuir o padding para reduzir o tamanho do cabeçalho */
+    border-bottom: 2px solid #007bff; /* Tom de azul menos chamativo para a borda */
+    background-color: #08178a; /* Fundo do cabeçalho */
+    color: #ffffff;
+    border-radius: 12px 12px 0 0; /* Bordas arredondadas superiores */
+}
 
-        button {
-            cursor: pointer;
-        }
+header h1 {
+    margin: 0;
+    font-size: 2.5em; /* Reduzir o tamanho da fonte do cabeçalho */
+    font-weight: 600;
+    text-transform: uppercase; /* Deixa o texto em maiúsculas */
+    letter-spacing: 1.5px; /* Espaçamento entre letras ajustado */
+}
 
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+.task-input {
+    display: flex;
+    flex-direction: column; /* Alinhar os itens em coluna */
+    gap: 10px; /* Espaçamento entre os itens */
+    margin-bottom: 20px; /* Espaço abaixo do task-input */
+}
 
-        button:active {
-            opacity: 0.8;
-        }
+.task-input input,
+.task-input select,
+.task-input button {
+    padding: 12px;
+    margin: 0; /* Remover margens adicionais */
+    font-size: 1em;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+}
 
-        .clear {
-            background: transparent;
-            border: none;
-            color: rgb(45, 45, 166);
-        }
+.task-input input {
+    flex: 1;
+}
 
-        .solid {
-            background: rgb(45, 45, 166);
-            border: none;
-            color: white;
-        }
+.task-input button {
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-        .outline {
-            background: transparent;
-            color: rgb(45, 45, 166);
-            border: 1px solid rgb(45, 45, 166);
-        }
+.task-input button:hover {
+    background-color: #218838;
+}
 
-        .error { 
-            color: white;
-            background: red;
-            display: none;
+.tasks-list {
+    margin-top: 20px;
+}
 
+.tasks-list h2 {
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    color: #333;
+    border-bottom: 2px solid #007bff; /* Tom de azul menos chamativo para a borda */
+    padding-bottom: 10px;
+}
 
+.tasks-list ul {
+    list-style: none;
+    padding: 0;
+}
 
+.tasks-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.9em;
+    transition: background-color 0.3s, border-color 0.3s;
+}
 
-        }
+.tasks-list li.high {
+    border-left: 8px solid #28a745;
+}
 
+.tasks-list li.medium {
+    border-left: 8px solid #ffc107;
+}
 
+.tasks-list li.low {
+    border-left: 8px solid #dc3545;
+}
+
+.tasks-list li.dragging {
+    opacity: 0.6;
+}
+
+.tasks-list .task-actions button {
+    padding: 6px 12px;
+    font-size: 0.8em;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-left: 6px;
+}
+
+.tasks-list .task-actions button.complete {
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+}
+
+.tasks-list .task-actions button.delete {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+}
+
+.tasks-list .task-actions button:hover {
+    opacity: 0.8;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 2px solid #007bff; /* Tom de azul menos chamativo para a borda */
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 0;
+    color: #777;
+}
+
+.weekly-tasks {
+    margin-top: 40px;
+}
+
+.weekly-tasks .week {
+    display: flex; /* Usar flexbox */
+    flex-wrap: wrap; /* Permitir quebra de linha */
+    gap: 20px;
+}
+
+.weekly-tasks .day {
+    flex-basis: calc(50% - 10px); /* Ajustar a largura para permitir espaçamento */
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #007bff; /* Borda mais reforçada com um tom de azul suave */
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para adicionar profundidade */
+}
+
+.weekly-tasks .day.drag-over {
+    border-color: #0056b3; /* Azul mais escuro ao arrastar sobre a área */
+    background-color: #e9f4ff;
+}
+
+.weekly-tasks .day h3 {
+    margin-top: 0;
+    font-size: 1.3em;
+    color: #333;
+}
+
+.weekly-tasks .day input {
+    width: calc(100% - 16px); /* Garantir que o input não ultrapasse a borda */
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+.weekly-tasks .day button {
+    width: 100%;
+    padding: 8px;
+    background-color: #306093; /* Tom de azul menos chamativo */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.weekly-tasks .day button:hover {
+    background-color: #0056b3;
+}
+
+.weekly-tasks .tasks {
+    list-style: none;
+    padding: 0;
+}
+
+.weekly-tasks .tasks li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    font-size: 0.9em;
+}
+
+.weekly-tasks .tasks li.completed {
+    text-decoration: line-through;
+    background-color: #d4edda;
+}
+
+.weekly-tasks .task-actions button {
+    padding: 4px 8px; /* Diminuir o tamanho dos botões */
+    font-size: 0.7em; /* Ajustar o tamanho da fonte dos botões */
+    margin-left: 6px;
+}
+
+.weekly-tasks .task-actions button.complete {
+    background-color: #28a745;
+    color: #ffffff;
+}
+
+.weekly-tasks .task-actions button.delete {
+    background-color: #dc3545;
+    color: #ffffff;
+}

@@ -3,44 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Controle de Gastos</title>
+    <title>Study Organizer</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-
-    <form action="exemplo.html">
-
-    
-
-        <div>
-            <label>Email</label><br>
-            <input type="email" name="email" id="email" onchange="onChangeEmail()" placeholder="seu@email.com">
-            <div id="email-required-error" class="error">Email Obrigatório.</div>
-            <div id="email-invalid-error" class="error">Email Inválido.</div>
-
-
-        </div> 
-        <div>
-            <label>Senha</label><br>
-            <input type="password" name="password" id="password" onchange="onChangePassword()" placeholder="Senha">
-            <div id="password-required-error" class="error">Senha Obrigatória.</div>
-        </div>
-        <div>
-            <button type="button" class="clear" disabled>Recuperar Senha</button>
-        </div>
-        <div>
-            <button type="submit" class="solid" disabled>Entrar</button>
-        </div>
-        <div>
-            <button type="button" class="outline">Registrar</button>
-        </div>
-
-    </form>
-
+    <div class="container">
+        <header>
+            <h1>Students Relationship Management</h1>
+        </header>
+        <main>
+            <div class="task-input"> 
+                <h3>Escreva seu Briefing</h3>
+                <input type="text" id="task-name" placeholder="Adicione dúvidas a pesquisar, metas semanais e outros (Ex: Fazer 3 provas testes, O que são reformas?, buscar conteúdo sobre Macro e Micro)" >
+                <select id="task-priority">
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+                <button id="add-task-btn">Add Task</button>
+            </div>
+            <div class="tasks-list">
+                <h2>Briefing de Estudo</h2>
+                <ul id="tasks">
+                    <!-- Tasks will be added here dynamically -->
+                </ul>
+            </div>
+            <div class="weekly-tasks">
+                <h2>Atividades Semanais</h2>
+                <div class="week">
+                    <div class="day" data-day="Sunday">
+                        <h3>Domingo</h3>
+                        <ul class="tasks" id="tasks-sunday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar (Ex: Reforma Tributária)">
+                        <button>Add</button>
+                    </div>
+                    <div class="day" data-day="Monday">
+                        <h3>Segunda-Feira</h3>
+                        <ul class="tasks" id="tasks-monday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button>Add</button>
+                    </div>
+                    <div class="day" data-day="Tuesday">
+                        <h3>Terça-Feira</h3>
+                        <ul class="tasks" id="tasks-tuesday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button>Add</button>
+                    </div>
+                    <div class="day" data-day="Wednesday">
+                        <h3>Quarta-Feira</h3>
+                        <ul class="tasks" id="tasks-wednesday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button>Add</button>
+                    </div>
+                    <div class="day" data-day="Thursday">
+                        <h3>Quinta-Feira</h3>
+                        <ul class="tasks" id="tasks-thursday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button>Add</button>
+                    </div>
+                    <div class="day" data-day="Friday">
+                        <h3>Sexta-Feira</h3>
+                        <ul class="tasks" id="tasks-friday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button>Add</button>
+                    </div>
+                    <div class="day" data-day="Saturday">
+                        <h3>Sábado</h3>
+                        <ul class="tasks" id="tasks-saturday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button>Add</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 ArrudaWorld Inc. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="index.js"></script>
 </body>
-
-<link rel="stylesheet" href="index.css" >
-
-<script src="index.js">  </script>
-
 </html>
-   
