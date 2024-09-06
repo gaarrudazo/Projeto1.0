@@ -364,3 +364,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Função para rolar a tela automaticamente
+function autoScroll(e) {
+    const draggingItem = document.querySelector('.dragging');
+    const { clientY, clientX } = e;
+
+    // Calcular a posição do item arrastado
+    const { top, bottom } = draggingItem.getBoundingClientRect();
+    const { innerHeight, innerWidth } = window;
+
+    // Verifica se a posição está perto do topo ou fundo da tela
+    if (clientY < 100) {
+        window.scrollBy(0, -10); // Rola para cima
+    } else if (clientY > innerHeight - 100) {
+        window.scrollBy(0, 10); // Rola para baixo
+    }
+    if (clientX < 100) {
+        window.scrollBy(-10, 0); // Rola para a esquerda
+    } else if (clientX > innerWidth - 100) {
+        window.scrollBy(10, 0); // Rola para a direita
+    }
+}
+
+// Adicionar eventos de rolagem ao documento durante o arrasto
+document.addEventListener('dragover', autoScroll);
+
+// Adicionar um evento para parar de rolar quando o arrasto termina
+document.addEventListener('dragend', () => {
+    window.scrollBy(0, 0); // Parar de rolar
+});
