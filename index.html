@@ -1,85 +1,270 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Organizer</title>
-    <link rel="stylesheet" href="index.css">
+
+    <img src="Logo final.png" alt="Logo" class="logo">
+
+    <title>Login & Registro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #31097b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container.login {
+            background-color: #ffffff;
+        }
+
+        .container.register {
+            background-color: #f5f5f5;
+            border: 2px solid #007BFF;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+            text-align: left;
+            font-weight: bold;
+            color: #333;
+            width: 100%;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            box-sizing: border-box;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 36px;
+            color: #333;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .error-message {
+            color: #FF0000;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Students Relationship Management</h1>
-        </header>
-        <main>
-            <div class="task-input"> 
-                <h3>Escreva seu Briefing</h3>
-                <input type="text" id="task-name" placeholder="Adicione dúvidas a pesquisar, metas semanais e outros (Ex: Fazer 3 provas testes, O que são reformas?, buscar conteúdo sobre Macro e Micro)" >
-                <select id="task-priority">
-                    <option value="high">High Priority</option>
-                    <option value="medium">Medium Priority</option>
-                    <option value="low">Low Priority</option>
-                </select>
-                <button id="add-task-btn">Add Task</button>
-            </div>
-            <div class="tasks-list">
-                <h2>Briefing de Estudo</h2>
-                <ul id="tasks">
-                    <!-- Tasks will be added here dynamically -->
-                </ul>
-            </div>
-            <div class="weekly-tasks">
-                <h2>Atividades Semanais</h2>
-                <div class="week">
-                    <div class="day" data-day="Sunday">
-                        <h3>Domingo</h3>
-                        <ul class="tasks" id="tasks-sunday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar (Ex: Reforma Tributária)">
-                        <button>Add</button>
-                    </div>
-                    <div class="day" data-day="Monday">
-                        <h3>Segunda-Feira</h3>
-                        <ul class="tasks" id="tasks-monday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar">
-                        <button>Add</button>
-                    </div>
-                    <div class="day" data-day="Tuesday">
-                        <h3>Terça-Feira</h3>
-                        <ul class="tasks" id="tasks-tuesday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar">
-                        <button>Add</button>
-                    </div>
-                    <div class="day" data-day="Wednesday">
-                        <h3>Quarta-Feira</h3>
-                        <ul class="tasks" id="tasks-wednesday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar">
-                        <button>Add</button>
-                    </div>
-                    <div class="day" data-day="Thursday">
-                        <h3>Quinta-Feira</h3>
-                        <ul class="tasks" id="tasks-thursday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar">
-                        <button>Add</button>
-                    </div>
-                    <div class="day" data-day="Friday">
-                        <h3>Sexta-Feira</h3>
-                        <ul class="tasks" id="tasks-friday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar">
-                        <button>Add</button>
-                    </div>
-                    <div class="day" data-day="Saturday">
-                        <h3>Sábado</h3>
-                        <ul class="tasks" id="tasks-saturday"></ul>
-                        <input type="text" placeholder="Adicione o que estudar">
-                        <button>Add</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <footer>
-            <p>&copy; 2024 ArrudaWorld Inc. All rights reserved.</p>
-        </footer>
+    <div class="container login" id="loginContainer">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            <span id="passwordError" class="error-message">E-mail ou senha incorretos</span>
+            <button type="submit">Entrar</button>
+        </form>
+        <p><a href="#" id="showRecover">Esqueceu a senha?</a></p>
+        <p>Não tem uma conta? <a href="#" id="showRegister">Registre-se aqui</a></p>
     </div>
-    <script src="index.js"></script>
+
+    <div class="container register" id="registerContainer" style="display:none;">
+        <h1>Registro</h1>
+        <form id="registerForm">
+            <label for="regEmail">E-mail:</label>
+            <input type="email" id="regEmail" name="regEmail" required>
+            <label for="regPassword">Senha:</label>
+            <input type="password" id="regPassword" name="regPassword" required>
+            <button type="submit">Registrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="#" id="showLogin">Faça login aqui</a></p>
+    </div>
+
+    <div class="container recover" id="recoverContainer" style="display:none;">
+        <h1>Recuperar Senha</h1>
+        <form id="recoverForm">
+            <label for="recEmail">E-mail:</label>
+            <input type="email" id="recEmail" name="recEmail" required>
+            <button type="submit">Recuperar Senha</button>
+        </form>
+        <p>Voltar ao <a href="#" id="backToLogin">Login</a></p>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPpZ8s7gBTVYcmz78hMX0XqXHsHNMx0x8",
+            authDomain: "study-rm.firebaseapp.com",
+            projectId: "study-rm",
+            storageBucket: "study-rm.appspot.com",
+            messagingSenderId: "466457514347",
+            appId: "1:466457514347:web:82d72759a048e1cea23c2e",
+            measurementId: "G-3TRGS18QQJ"
+        };
+
+        // Inicializa o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const recoverForm = document.getElementById('recoverForm');
+            const loginContainer = document.getElementById('loginContainer');
+            const registerContainer = document.getElementById('registerContainer');
+            const recoverContainer = document.getElementById('recoverContainer');
+            const showRegister = document.getElementById('showRegister');
+            const showLogin = document.getElementById('showLogin');
+            const showRecover = document.getElementById('showRecover');
+            const backToLogin = document.getElementById('backToLogin');
+            const passwordError = document.getElementById('passwordError');
+
+            showRegister.addEventListener('click', () => {
+                loginContainer.style.display = 'none';
+                registerContainer.style.display = 'block';
+                recoverContainer.style.display = 'none';
+            });
+
+            showLogin.addEventListener('click', () => {
+                registerContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+                recoverContainer.style.display = 'none';
+            });
+
+            showRecover.addEventListener('click', () => {
+                loginContainer.style.display = 'none';
+                registerContainer.style.display = 'none';
+                recoverContainer.style.display = 'block';
+            });
+
+            backToLogin.addEventListener('click', () => {
+                registerContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+                recoverContainer.style.display = 'none';
+            });
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+
+                    try {
+                        await auth.signInWithEmailAndPassword(email, password);
+                        window.location.href = 'index2.html'; // Redireciona para a plataforma
+                    } catch (error) {
+                        passwordError.style.display = 'block';
+                        passwordError.textContent = 'E-mail ou senha incorretos';
+                    }
+                });
+            }
+
+            if (registerForm) {
+                registerForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const regEmail = document.getElementById('regEmail').value;
+                    const regPassword = document.getElementById('regPassword').value;
+
+                    try {
+                        await auth.createUserWithEmailAndPassword(regEmail, regPassword);
+                        alert('Cadastro realizado com sucesso!');
+                        window.location.href = 'index2.html'; // Redireciona para a plataforma
+                    } catch (error) {
+                        alert('Erro ao registrar usuário: ' + error.message);
+                    }
+                });
+            }
+
+            if (recoverForm) {
+                recoverForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const recEmail = document.getElementById('recEmail').value;
+
+                    try {
+                        await auth.sendPasswordResetEmail(recEmail);
+                        alert('E-mail de recuperação de senha enviado com sucesso!');
+                        loginContainer.style.display = 'block';
+                        registerContainer.style.display = 'none';
+                        recoverContainer.style.display = 'none';
+                    } catch (error) {
+                        alert('Erro ao enviar e-mail de recuperação de senha: ' + error.message);
+                    }
+                });
+            }
+        });
+
+
+        
+    </script>
 </body>
 </html>
+

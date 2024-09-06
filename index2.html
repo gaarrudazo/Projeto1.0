@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Organizer</title>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img src="Logo final.png" alt="Logo" class="logo">
+            </div>
+        </header>
+        <main>
+            <div class="task-input">
+                <h3>Escreva seu Briefing</h3>
+                <input type="text" id="task-name" placeholder="Adicione dúvidas a pesquisar, metas semanais e outros (Ex: Fazer 3 provas testes, O que são reformas?, buscar conteúdo sobre Macro e Micro)">
+                <select id="task-priority">
+                    <option value="high">Alta Prioridade</option>
+                    <option value="medium">Média Prioridade</option>
+                    <option value="low">Baixa Prioridade</option>
+                </select>
+                <button id="add-task-btn">Adicionar</button>
+            </div>
+            <div class="tasks-list">
+                <h2>Briefing de Estudo</h2>
+                <ul id="tasks">
+                    <!-- Tarefas serão adicionadas aqui dinamicamente -->
+                </ul>
+            </div>
+            
+            <div class="weekly-tasks">
+                <h2>Atividades Semanais</h2>
+                <div class="week">
+                    <div class="day" data-day="Monday">
+                        <h3>Segunda-Feira</h3>
+                        <ul class="tasks" id="tasks-monday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Monday">Adicionar</button>
+                    </div>
+                    <div class="day" data-day="Tuesday">
+                        <h3>Terça-Feira</h3>
+                        <ul class="tasks" id="tasks-tuesday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Tuesday">Adicionar</button>
+                    </div>
+                    <div class="day" data-day="Wednesday">
+                        <h3>Quarta-Feira</h3>
+                        <ul class="tasks" id="tasks-wednesday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Wednesday">Adicionar</button>
+                    </div>
+                    <div class="day" data-day="Thursday">
+                        <h3>Quinta-Feira</h3>
+                        <ul class="tasks" id="tasks-thursday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Thursday">Adicionar</button>
+                    </div>
+                    <div class="day" data-day="Friday">
+                        <h3>Sexta-Feira</h3>
+                        <ul class="tasks" id="tasks-friday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Friday">Adicionar</button>
+                    </div>
+                    <div class="day" data-day="Saturday">
+                        <h3>Sábado</h3>
+                        <ul class="tasks" id="tasks-saturday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Saturday">Adicionar</button>
+                    </div>
+                    <div class="day" data-day="Sunday">
+                        <h3>Domingo</h3>
+                        <ul class="tasks" id="tasks-sunday"></ul>
+                        <input type="text" placeholder="Adicione o que estudar">
+                        <button class="add-weekly-task-btn" data-day="Sunday">Adicionar</button>
+                    </div>
+                </div>
+                
+                <div id="editais">
+                    <h2>Escolha um Edital</h2>
+                    <select id="edital-select">
+                        <option value="">Selecione um edital</option>
+                        <option value="Edital TJ-SP 2024">Edital TJ-SP 2024</option>
+                        <option value="enem">Enem</option>
+                    </select>
+                </div>
+                
+                <div class="briefing-section">
+                    <h2>Tarefas do Edital Selecionado </h2>
+                    <h5>(Leve a tarefa para cima arrastando Para Cima ou Para Baixo e Soltando)</h5>
+                    <ul id="task-list">
+                        <!-- As tarefas serão adicionadas aqui pelo JavaScript -->
+                    </ul>
+                </div>
+                
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 ArrudaWorld Inc. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

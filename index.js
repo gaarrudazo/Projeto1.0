@@ -2,54 +2,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('task-name');
     const taskPriority = document.getElementById('task-priority');
     const addTaskBtn = document.getElementById('add-task-btn');
+    const taskList = document.getElementById('task-list');
+    const editalSelect = document.getElementById('edital-select');
 
-    // Função para salvar as tarefas diárias no localStorage
-    function saveTasks() {
-        const tasks = Array.from(document.querySelectorAll('#tasks li')).map(taskItem => {
-            return {
-                name: taskItem.querySelector('span').textContent,
-                priority: taskItem.classList[0],
-                completed: taskItem.classList.contains('completed')
-            };
-        });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCPpZ8s7gBTVYcmz78hMX0XqXHsHNMx0x8",
+        authDomain: "study-rm.firebaseapp.com",
+        projectId: "study-rm",
+        storageBucket: "study-rm.appspot.com",
+        messagingSenderId: "466457514347",
+        appId: "1:466457514347:web:82d72759a048e1cea23c2e",
+        measurementId: "G-3TRGS18QQJ"
+    };
 
-    // Função para salvar as tarefas semanais no localStorage
-    function saveWeeklyTasks() {
-        const weeklyTasks = {};
-        document.querySelectorAll('.weekly-tasks .day').forEach(day => {
-            const dayName = day.dataset.day.toLowerCase();
-            weeklyTasks[dayName] = Array.from(day.querySelectorAll('li')).map(taskItem => {
-                return {
-                    name: taskItem.querySelector('span').textContent,
-                    completed: taskItem.classList.contains('completed')
-                };
-            });
-        });
-        localStorage.setItem('weeklyTasks', JSON.stringify(weeklyTasks));
-    }
+    // Inicializa o Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    // Função para carregar as tarefas diárias do localStorage
-    function loadTasks() {
-        const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        savedTasks.forEach(task => {
-            addTask(task.name, task.priority, task.completed);
-        });
-    }
+    // Função para criar a estrutura do Firestore
+    async function createFirestoreStructure(userId) {
+        try {
+            const userDoc = db.collection('users').doc(userId);
+            
+            await userDoc.set({
+                name: "Nome do usuário",
+                email: "email@example.com",
+                createdAt: new Date(),
+            }, { merge: true });
 
-    // Função para carregar as tarefas semanais do localStorage
-    function loadWeeklyTasks() {
-        const savedWeeklyTasks = JSON.parse(localStorage.getItem('weeklyTasks')) || {};
-        for (const [day, tasks] of Object.entries(savedWeeklyTasks)) {
-            tasks.forEach(task => {
-                addWeeklyTask(day.charAt(0).toUpperCase() + day.slice(1), task.name, task.completed);
-            });
+            await userDoc.collection('dailyTasks').doc('tasks').set({ tasks: [] });
+            await userDoc.collection('weeklyTasks').doc('tasks').set({ weeklyTasks: {} });
+            await userDoc.collection('editais').doc('list').set({ editais: {} }); // Para armazenar os editais
+
+            console.log('Estrutura do Firestore criada com sucesso.');
+        } catch (error) {
+            console.error('Erro ao criar estrutura no Firestore:', error);
         }
     }
 
     // Função para criar um elemento de tarefa
-    function createTaskElement(name, priority, completed = false, isWeekly = false) {
+    function createTaskElement(name, priority, completed = false, isEditable = false) {
         const taskItem = document.createElement('li');
         if (priority) taskItem.classList.add(priority);
         if (completed) taskItem.classList.add('completed');
@@ -61,8 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskActions = document.createElement('div');
         taskActions.classList.add('task-actions');
 
-        // Adiciona o botão "Complete" apenas se for uma tarefa semanal
-        if (isWeekly) {
+        if (isEditable) {
             const completeBtn = document.createElement('button');
             completeBtn.textContent = 'Complete';
             completeBtn.classList.add('complete');
@@ -90,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return taskItem;
     }
 
-    // Função para adicionar uma tarefa diária
+    // Função para adicionar uma tarefa à lista de tarefas diárias
     function addTask(name, priority, completed = false) {
         const taskItem = createTaskElement(name, priority, completed, false);
         document.getElementById('tasks').appendChild(taskItem);
@@ -107,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Função para adicionar uma tarefa semanal
+    // Função para adicionar uma tarefa à lista de tarefas semanais
     function addWeeklyTask(day, taskName, completed = false) {
         const tasksList = document.getElementById(`tasks-${day.toLowerCase()}`);
         const taskItem = createTaskElement(taskName, '', completed, true);
@@ -123,6 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
         taskItem.addEventListener('dragend', () => {
             taskItem.classList.remove('dragging');
         });
+    }
+
+    // Função para atualizar a posição das tarefas
+    function updateTaskPositions() {
+        saveTasks();
+        saveWeeklyTasks();
     }
 
     // Evento de clique para adicionar uma nova tarefa diária
@@ -154,14 +153,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Eventos de tecla para adicionar uma nova tarefa semanal ao pressionar Enter
     document.querySelectorAll('.weekly-tasks .day input').forEach(input => {
+        input.setAttribute('name', `weekly-task-${input.parentElement.dataset.day.toLowerCase()}`); // Adiciona name aos inputs
         input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                const taskName = e.target.value.trim();
+                const taskName = input.value.trim();
+                const day = input.parentElement.dataset.day;
+
                 if (taskName) {
-                    const dayContainer = e.target.closest('.day');
-                    addWeeklyTask(dayContainer.dataset.day, taskName);
-                    e.target.value = '';
+                    addWeeklyTask(day, taskName);
+                    input.value = '';
                     saveWeeklyTasks();
                 }
             }
@@ -202,12 +203,164 @@ document.addEventListener('DOMContentLoaded', () => {
             if (draggingItem) {
                 day.querySelector('ul').appendChild(draggingItem);
                 day.classList.remove('drag-over');
-                saveWeeklyTasks();
+                updateTaskPositions();
             }
         });
     });
 
-    // Carregar tarefas ao iniciar a página
-    loadTasks();
-    loadWeeklyTasks();
+    // Função para criar um elemento de tarefa interativo
+    function createEditableTaskElement(name) {
+        const taskItem = createTaskElement(name, '', false, true);
+        taskItem.classList.add('editable-task');
+
+        taskItem.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', name);
+            e.dataTransfer.effectAllowed = 'move';
+            taskItem.classList.add('dragging');
+        });
+
+        taskItem.addEventListener('dragend', () => {
+            taskItem.classList.remove('dragging');
+        });
+
+        return taskItem;
+    }
+
+    // Atualiza a lista de editais para tornar os temas arrastáveis
+    const editais = {
+        "Edital TJ-SP 2024": [],
+        "enem": [
+            "Matemática - Funções",
+            "Matemática - Estatística",
+            "Português - Leitura e Interpretação",
+            "Química - Tabelas Periódicas",
+            "Biologia - Ecologia",
+            "Física - Cinemática"
+        ]
+    };
+
+    function updateEditaisList() {
+        const selecionado = editalSelect.value;
+        const taskList = document.getElementById('task-list');
+        taskList.innerHTML = '';
+
+        if (editais[selecionado]) {
+            editais[selecionado].forEach(task => {
+                taskList.appendChild(createEditableTaskElement(task));
+            });
+        }
+    }
+
+    editalSelect.addEventListener('change', updateEditaisList);
+
+    // Função para salvar os editais no Firestore
+    async function saveEditais() {
+        const editaisData = {};
+        Object.entries(editais).forEach(([key, value]) => {
+            editaisData[key] = value;
+        });
+
+        try {
+            const userId = firebase.auth().currentUser.uid;
+            await db.collection('users').doc(userId).collection('editais').doc('list').set({ editais: editaisData });
+            console.log('Editais salvos com sucesso.');
+        } catch (error) {
+            console.error('Erro ao salvar editais:', error);
+        }
+    }
+
+    // Função para carregar as tarefas e editais do Firestore
+    async function loadTasksAndEditais() {
+        try {
+            const userId = firebase.auth().currentUser.uid;
+
+            // Carregar as tarefas diárias
+            const dailyTasksDoc = await db.collection('users').doc(userId).collection('dailyTasks').doc('tasks').get();
+            if (dailyTasksDoc.exists) {
+                const data = dailyTasksDoc.data().tasks;
+                data.forEach(({ name, priority, completed }) => {
+                    addTask(name, priority, completed);
+                });
+            }
+
+            // Carregar as tarefas semanais
+            const weeklyTasksDoc = await db.collection('users').doc(userId).collection('weeklyTasks').doc('tasks').get();
+            if (weeklyTasksDoc.exists) {
+                const weeklyData = weeklyTasksDoc.data().weeklyTasks;
+                Object.entries(weeklyData).forEach(([day, tasks]) => {
+                    tasks.forEach(({ name, completed }) => {
+                        addWeeklyTask(day, name, completed);
+                    });
+                });
+            }
+
+            // Carregar os editais
+            const editaisDoc = await db.collection('users').doc(userId).collection('editais').doc('list').get();
+            if (editaisDoc.exists) {
+                const data = editaisDoc.data().editais;
+                Object.entries(data).forEach(([key, tasks]) => {
+                    editais[key] = tasks;
+                });
+                updateEditaisList();
+            }
+
+            console.log('Tarefas e editais carregados com sucesso.');
+        } catch (error) {
+            console.error('Erro ao carregar tarefas e editais:', error);
+        }
+    }
+
+    // Função para salvar tarefas diárias no Firestore
+    async function saveTasks() {
+        const tasks = [];
+        document.querySelectorAll('#tasks li').forEach(taskItem => {
+            tasks.push({
+                name: taskItem.querySelector('span').textContent,
+                priority: taskItem.classList.contains('high-priority') ? 'high-priority' : 'normal-priority',
+                completed: taskItem.classList.contains('completed'),
+            });
+        });
+
+        try {
+            const userId = firebase.auth().currentUser.uid;
+            await db.collection('users').doc(userId).collection('dailyTasks').doc('tasks').set({ tasks });
+            console.log('Tarefas diárias salvas com sucesso.');
+        } catch (error) {
+            console.error('Erro ao salvar tarefas diárias:', error);
+        }
+    }
+
+    // Função para salvar tarefas semanais no Firestore
+    async function saveWeeklyTasks() {
+        const weeklyTasks = {};
+
+        document.querySelectorAll('.weekly-tasks .day').forEach(dayContainer => {
+            const dayName = dayContainer.dataset.day.toLowerCase();
+            weeklyTasks[dayName] = [];
+
+            dayContainer.querySelectorAll('li').forEach(taskItem => {
+                weeklyTasks[dayName].push({
+                    name: taskItem.querySelector('span').textContent,
+                    completed: taskItem.classList.contains('completed'),
+                });
+            });
+        });
+
+        try {
+            const userId = firebase.auth().currentUser.uid;
+            await db.collection('users').doc(userId).collection('weeklyTasks').doc('tasks').set({ weeklyTasks });
+            console.log('Tarefas semanais salvas com sucesso.');
+        } catch (error) {
+            console.error('Erro ao salvar tarefas semanais:', error);
+        }
+    }
+
+    // Carregar tarefas e editais ao carregar a página
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            loadTasksAndEditais();
+        } else {
+            // Redirecionar ou solicitar login se o usuário não estiver logado
+        }
+    });
 });
